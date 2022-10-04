@@ -1,0 +1,55 @@
+
+## Command if ran directly in cli
+
+./node_modules/nodemon/bin/nodemon.js src/index.js
+
+## Command after setting up script in package.json
+
+npm run main
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

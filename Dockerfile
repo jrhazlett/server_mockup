@@ -1,0 +1,60 @@
+FROM node
+
+WORKDIR /server_mockup
+
+COPY package*.json /server_mockup/
+COPY entrypoint.sh /server_mockup/
+
+ENTRYPOINT [ "sh", "/server_mockup/entrypoint.sh" ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
