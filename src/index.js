@@ -4,7 +4,7 @@
 // Libraries - custom
 //
 import helperApp from "./helpersApp/helperApp.js";
-import HelperServerExpress from "./helpersNetworking/helpersServers/helperServerExpress.js";
+import HelperServerExpress from "./helpersServers/helperServerExpress.js";
 import helperServerExpressAddCommands from "./helperServerExpressAddCommands.js";
 
 const main = async () => {

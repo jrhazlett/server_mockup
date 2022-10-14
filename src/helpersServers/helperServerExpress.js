@@ -82,9 +82,12 @@ export default class HelperServerExpress {
     //
     // Constructor
     //
-    constructor() {
+    /**
+     * @param {number} argIntPort
+     * */
+    constructor( argIntPort = 8080 ) {
 
-        this.fieldIntPort = 8080
+        this.fieldIntPort = argIntPort
         this.fieldServer = express()
         //
         // Enable json parsing

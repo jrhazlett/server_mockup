@@ -1,15 +1,11 @@
 {
   "name": "server_mockup",
   "version": "1.0.0",
-  "description": "",
+  "author": "James Hazlett <james.hazlett.npm@gmail.com>",
+  "description": "Bare-bones, easily configured mockup server",
+  "license": "MIT",
   "main": "src/index.js",
-  "scripts": {
-    "main": "./node_modules/nodemon/bin/nodemon.js src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "type": "module",
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.0",
     "cors": "^2.8.5",
@@ -18,5 +14,9 @@
     "nodemon": "^2.0.19",
     "path": "^0.12.7",
     "pretty_printer_for_humans": "^1.1.9"
+  },
+  "scripts": {
+    "main": "./node_modules/nodemon/bin/nodemon.js src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
