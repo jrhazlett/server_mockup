@@ -1,44 +1,31 @@
-/*
-Libraries needed to make this work...
-
-This is the server
-npm i express
-
-This is necessary to prevent express from returning CORS errors
-npm i cors
-
-This is necessary to get and parse data in requests
-npm i bodyParser
-*/
 //
 // Libraries - downloaded
 //
-import bodyParser from "body-parser"
-import cors from "cors"
-import express from "express"
+import path from "path";
 //
 // Libraries - custom
 //
-import helperSleep from "../helpers/helperSleep.js"
-import prettyPrinterForHumans from "pretty_printer_for_humans"
+import HelperServerExpress from "./helpersNetworking/helpersServers/helperServerExpress.js";
+import helperPathsProject from "./helpersDisk/helpersPaths/helperPathsProject.js";
+import prettyPrinterForHumans from "pretty_printer_for_humans";
+import helperSleep from "./helpersSleep/helperSleep.js";
 //
 // Class
 //
-export default class helperServer {
+export default class helperServerExpressAddCommands {
 
-    static runServer = () => {
+    /**
+     * @param {HelperServerExpress} argHelperServerExpress
+     * */
+    static addCommandsToServerExpress = ( argHelperServerExpress ) => {
 
-        const objectServer = this._getNewConfiguredObjectServer()
+        const objectServer = argHelperServerExpress.fieldServer
 
-        this._addCommandGetDelayed( objectServer, 10, )
-
-        this._addCommandGetText( objectServer )
-
-        this._addCommandGetTest403( objectServer )
-
-        this._addCommandPostTestData( objectServer )
-
-        this._runServer( objectServer, 8000, )
+        helperServerExpressAddCommands._addCommandGetDelayed( objectServer, 10, )
+        helperServerExpressAddCommands._addCommandGetText( objectServer )
+        helperServerExpressAddCommands._addCommandGetTest403( objectServer )
+        helperServerExpressAddCommands._addCommandPostTestData( objectServer )
+        helperServerExpressAddCommands._addHtmlTestForm( objectServer )
     }
     //
     // Private - add - get
@@ -118,18 +105,29 @@ export default class helperServer {
             },
         )
     }
-    //
-    // Private - get
-    //
+
     /**
-     * @returns Object
+     * @param {Object} argObjectServer
      * */
-    static _getNewConfiguredObjectServer = () => {
-        const objectToReturn = express()
-        objectToReturn.use(bodyParser.json())
-        objectToReturn.use(bodyParser.urlencoded( { extended: true } ))
-        objectToReturn.use(cors())
-        return objectToReturn
+    static _addHtmlTestForm = ( argObjectServer ) => {
+
+        argObjectServer.use(
+            "/testFormSubmit",
+            (req, res, next) => {
+                console.log( "req (form submitted) =" )
+                console.log( req.body )
+                console.log( "\n" )
+            }
+        )
+
+        const stringSubPath = "/testForm"
+        argObjectServer.get(
+            stringSubPath,
+            ( req, res, next ) => {
+                res.sendFile( path.join( helperPathsProject.fieldStringPathDirProject, "src/srcWeb/testForm.html", ) )
+            },
+        )
+
     }
     //
     // Private - print
@@ -141,34 +139,7 @@ export default class helperServer {
     static _printRESTCommand = ( argStringMethod, argStringSubPath ) => {
         console.log( `Added rest command: ${argStringMethod.toUpperCase()} : ${argStringSubPath}` )
     }
-    //
-    // Private - run
-    //
-    /**
-     * @param {Object} argObjectServer
-     * @param {number} argIntPort
-     * */
-    static _runServer = ( argObjectServer, argIntPort ) => {
-        argObjectServer.listen( argIntPort, () => { console.log( `Running server; listening on port: ${ argIntPort }` ) } )
-    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

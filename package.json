@@ -16,6 +16,7 @@
     "express": "^4.18.1",
     "fs": "^0.0.1-security",
     "nodemon": "^2.0.19",
+    "path": "^0.12.7",
     "pretty_printer_for_humans": "^1.1.9"
   }
 }
