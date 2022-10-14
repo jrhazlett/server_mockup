@@ -2,6 +2,8 @@
 
 This is a very bare-bones "I don't care. Just give me something to bounce signals against" test server.
 
+License: MIT
+
 ## Quick way to run this...
 
 npm i
