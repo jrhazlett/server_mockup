@@ -3,12 +3,15 @@
 //
 import fs from "fs";
 //
-// Class
+// Public
 //
 export default class helperFiles {
-
+    //
+    // Public - get
+    //
     /**
      * @param {string} argStringPathFile
+     * @returns {string}
      * */
     static getStringFromFile = ( argStringPathFile ) => {
 

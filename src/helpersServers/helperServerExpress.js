@@ -8,7 +8,7 @@ import path from "path";
 //
 // Libraries - custom
 //
-// Class
+// Public
 //
 export default class HelperServerExpress {
     //
@@ -26,10 +26,7 @@ export default class HelperServerExpress {
         const err = this.getErrorIfPathIsNotAbsolute( argStringPathFileWebPageAbsolute )
         if ( err ) { return err }
 
-        this.fieldServer.get(
-            argStringUrlSubPath,
-            ( req, res ) => { return res.sendFile( argStringPathFileWebPageAbsolute ) },
-        )
+        this.fieldObjectServer.get( argStringUrlSubPath, ( req, res ) => res.sendFile( argStringPathFileWebPageAbsolute ), )
         //
         // Return undefined if no error
         //
@@ -42,7 +39,7 @@ export default class HelperServerExpress {
      * @param {string} argStringUrlSubPath
      * @param {Function} argCallback
      * */
-    addGetPairPathUrlSubAndCallback = ( argStringUrlSubPath, argCallback ) => { this.fieldServer.get( argStringUrlSubPath, argCallback, ) }
+    addGetPairPathUrlSubAndCallback = ( argStringUrlSubPath, argCallback ) => this.fieldObjectServer.get( argStringUrlSubPath, argCallback, )
     //
     // Public - get
     //
@@ -50,33 +47,22 @@ export default class HelperServerExpress {
      * @param {string} argStringPath
      * @returns {Error | undefined}
      * */
-    getErrorIfPathIsNotAbsolute = ( argStringPath ) => {
-
-        if ( !path.isAbsolute( argStringPath ) ) {
-            const arrayError = []
-            arrayError.push( "Path is not absolute." )
-            arrayError.push( `argStringPath = ${argStringPath}` )
-            arrayError.push( `path.isAbsolute( argStringPath ) = ${path.isAbsolute( argStringPath )}` )
-            return Error( arrayError.reduce( ( itemStringPrev, itemString ) => itemStringPrev + "\n" + itemString ) )
-        }
-        return undefined
-    }
+    getErrorIfPathIsNotAbsolute = ( argStringPath ) => 
+        path.isAbsolute( argStringPath ) 
+            ? undefined 
+            : Error( [
+                "Path is not absolute.",
+                `argStringPath = ${argStringPath}`,
+                `path.isAbsolute( argStringPath ) = ${path.isAbsolute( argStringPath )}`,
+            ].reduce( ( itemStringPrev, itemString ) => `${itemStringPrev}\n${itemString}` ) )
     //
     // Public - run
     //
     /**
-     * Reminder: This function exists because the IDE keeps auto-inserting '()' when
-     * trying to refer to this.fieldServer. This triggers errors.
-     *
-     * @returns Object
-     * */
-    getObjectServer() { return this.fieldServer }
-
-    /**
      * @returns {Object}
      * */
-    runServer() {
-        this.fieldServer.listen( this.fieldIntPort, () => console.log( `Server listening on port: ${this.fieldIntPort}` ), )
+    runServer = () => {
+        this.fieldObjectServer.listen( this.fieldIntPort, () => console.log( `Server listening on port: ${this.fieldIntPort}` ), )
         return this
     }
     //
@@ -85,19 +71,19 @@ export default class HelperServerExpress {
     /**
      * @param {number} argIntPort
      * */
-    constructor( argIntPort = 8080 ) {
+    constructor( argIntPort = 8001 ) {
 
         this.fieldIntPort = argIntPort
-        this.fieldServer = express()
+        this.fieldObjectServer = express()
         //
         // Enable json parsing
         //
-        this.fieldServer.use( bodyParser.json() )
-        this.fieldServer.use( bodyParser.urlencoded( { extended: true } ) )
+        this.fieldObjectServer.use( bodyParser.json() )
+        this.fieldObjectServer.use( bodyParser.urlencoded( { extended: true } ) )
         //
         // Prevent cors errors
         //
-        this.fieldServer.use( cors() )
+        this.fieldObjectServer.use( cors() )
     }
 }
 

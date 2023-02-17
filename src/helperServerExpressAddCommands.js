@@ -2,6 +2,7 @@
 // Libraries - downloaded
 //
 import path from "path";
+import pretty_printer_for_humans from "pretty_printer_for_humans";
 //
 // Libraries - custom
 //
@@ -9,23 +10,27 @@ import HelperServerExpress from "./helpersServers/helperServerExpress.js";
 import helperPathsProject from "./helpersDisk/helpersPaths/helperPathsProject.js";
 import prettyPrinterForHumans from "pretty_printer_for_humans";
 import helperSleep from "./helpersSleep/helperSleep.js";
+import helperStrings from "./helpersStrings/helperStrings.js";
 //
-// Class
+// Public
 //
-export default class helperServerExpressAddCommands {
-
+export default class HelperServerExpressAddCommands {
+    //
+    // Public - add - addCommandsToServerExpress
+    //
     /**
      * @param {HelperServerExpress} argHelperServerExpress
      * */
-    static addCommandsToServerExpress = ( argHelperServerExpress ) => {
+    addCommandsToServerExpress = ( argHelperServerExpress ) => {
 
-        const objectServer = argHelperServerExpress.fieldServer
+        const objectServer = argHelperServerExpress.fieldObjectServer
 
-        helperServerExpressAddCommands._addCommandGetDelayed( objectServer, 10, )
-        helperServerExpressAddCommands._addCommandGetText( objectServer )
-        helperServerExpressAddCommands._addCommandGetTest403( objectServer )
-        helperServerExpressAddCommands._addCommandPostTestData( objectServer )
-        helperServerExpressAddCommands._addHtmlTestForm( objectServer )
+        this._addCommandGetDelayed( objectServer, 10, )
+        this._addCommandGetText( objectServer )
+        this._addCommandGetTest403( objectServer )
+        this._addCommandPostTestData( objectServer )
+        this._addHtmlTestForm( objectServer )
+        this._addHtmlTestFormCheckboxes( objectServer )
     }
     //
     // Private - add - get
@@ -34,14 +39,17 @@ export default class helperServerExpressAddCommands {
      * @param {Object} argObjectServer
      * @param {number} argIntSeconds
      * */
-    static _addCommandGetDelayed = ( argObjectServer, argIntSeconds ) => {
+    _addCommandGetDelayed = (
+        argObjectServer,
+        argIntSeconds
+    ) => {
         const stringSubPath = "/delayed"
-        this._printRESTCommand( "get", stringSubPath, )
+        this._printAddedRESTCommand( "get", stringSubPath, )
         argObjectServer.get(
             stringSubPath,
             ( req, res ) => {
                 const stringMessage = "TEST_SUCCESSFUL_DELAYED"
-                console.log( `GET request received. Returning: ${ stringMessage }` )
+                this._printMessageForAction( `GET request received. Returning: ${ stringMessage }` )
                 helperSleep
                     .sleepForSeconds( argIntSeconds )
                     .then( () => { res.status( 200 ).send( `${ stringMessage }` ) } )
@@ -52,14 +60,14 @@ export default class helperServerExpressAddCommands {
     /**
      * @param {Object} argObjectServer
      * */
-    static _addCommandGetText = ( argObjectServer ) => {
+    _addCommandGetText = ( argObjectServer ) => {
         const stringSubPath = "/test"
-        this._printRESTCommand( "get", stringSubPath, )
+        this._printAddedRESTCommand( "get", stringSubPath, )
         argObjectServer.get(
             stringSubPath,
             ( req, res ) => {
                 const stringMessage = "TEST_SUCCESSFUL2"
-                console.log( `GET request received. Returning: ${ stringMessage }` )
+                this._printMessageForAction( `GET request received. Returning: ${ stringMessage }` )
                 res.send( { data: stringMessage } )
             },
         )
@@ -68,14 +76,14 @@ export default class helperServerExpressAddCommands {
     /**
      * @param {Object} argObjectServer
      * */
-    static _addCommandGetTest403 = ( argObjectServer ) => {
+    _addCommandGetTest403 = ( argObjectServer ) => {
         const stringSubPath = "/test403"
-        this._printRESTCommand( "get", stringSubPath, )
+        this._printAddedRESTCommand( "get", stringSubPath, )
         argObjectServer.get(
             stringSubPath,
             ( req, res ) => {
                 const stringMessage = "TEST_SUCCESSFUL_403"
-                console.log( `GET request received. Returning: ${ stringMessage }` )
+                this._printMessageForAction( `GET request received. Returning: ${ stringMessage }` )
                 res.status( 403 ).send( `${ stringMessage }` )
             },
         )
@@ -86,14 +94,14 @@ export default class helperServerExpressAddCommands {
     /**
      * @param {Object} argObjectServer
      * */
-    static _addCommandPostTestData = ( argObjectServer ) => {
+    _addCommandPostTestData = ( argObjectServer ) => {
         const stringSubPath = "/testData"
-        this._printRESTCommand( "post", stringSubPath, )
+        this._printAddedRESTCommand( "post", stringSubPath, )
         argObjectServer.post(
             stringSubPath,
             ( req, res ) => {
                 const stringMessage = "TEST_SUCCESSFUL_TESTDATA"
-                console.log( `POST request received. Returning: ${ stringMessage }\n` )
+                this._printMessageForAction( `POST request received. Returning: ${ stringMessage }\n` )
                 prettyPrinterForHumans.pprint(
                     req.body,
                     {
@@ -109,25 +117,67 @@ export default class helperServerExpressAddCommands {
     /**
      * @param {Object} argObjectServer
      * */
-    static _addHtmlTestForm = ( argObjectServer ) => {
+    _addHtmlTestForm = ( argObjectServer ) => {
 
+        let stringSubPath
+        //
+        // Setup ability to submit form
+        //
+        stringSubPath = "/testFormSubmit"
+        this._printAddedRESTCommand( "get", stringSubPath, )
         argObjectServer.use(
-            "/testFormSubmit",
-            (req, res, next) => {
-                console.log( "req (form submitted) =" )
-                console.log( req.body )
-                console.log( "\n" )
+            stringSubPath,
+            ( req, res, next ) => {
+                this._printMessageForAction( helperStrings.getStringByCombiningArray( [
+                    "req (form submitted) =",
+                    prettyPrinterForHumans.pformat( req.body ),
+                ], "\n", ) )
             }
         )
-
-        const stringSubPath = "/testForm"
+        //
+        // Setup ability to access form
+        //
+        stringSubPath = "/testForm"
+        this._printAddedRESTCommand( "get", stringSubPath, )
         argObjectServer.get(
             stringSubPath,
             ( req, res, next ) => {
                 res.sendFile( path.join( helperPathsProject.fieldStringPathDirProject, "src/srcWeb/testForm.html", ) )
             },
         )
+    }
 
+    /**
+     * @param {Object} argObjectServer
+     * */
+    _addHtmlTestFormCheckboxes = ( argObjectServer ) => {
+
+        let stringSubPath
+        //
+        // Setup ability to submit form
+        //
+        stringSubPath = "/testFormSubmit"
+        this._printAddedRESTCommand( "get", stringSubPath, )
+        argObjectServer.use(
+            stringSubPath,
+            ( req, res, next ) => {
+                this._printMessageForAction( helperStrings.getStringByCombiningArray( [
+                    "req (form submitted) =",
+                    prettyPrinterForHumans.pformat( req.body ),
+                ], "\n", ) )
+            }
+        )
+        //
+        // Setup ability to access form
+        //
+        stringSubPath = "/testFormCheckboxes"
+        this._printAddedRESTCommand( "get", stringSubPath, )
+        argObjectServer.get(
+            stringSubPath,
+            ( req, res, next ) => {
+                res.sendFile( path.join( helperPathsProject.fieldStringPathDirProject, "src/srcWeb/testFormCheckboxes.html", ) )
+            },
+        )
     }
     //
     // Private - print
@@ -136,9 +186,30 @@ export default class helperServerExpressAddCommands {
      * @param {string} argStringMethod
      * @param {string} argStringSubPath
      * */
-    static _printRESTCommand = ( argStringMethod, argStringSubPath ) => {
+    _printAddedRESTCommand = (
+        argStringMethod,
+        argStringSubPath
+    ) => {
         console.log( `Added rest command: ${argStringMethod.toUpperCase()} : ${argStringSubPath}` )
     }
+
+    /**
+     * @param {string} argStringMessage
+     * */
+    _printMessageForAction = ( argStringMessage ) => {
+        console.log(
+            helperStrings.getStringByCombiningArray( [
+                `this.fieldIntCounterForMessages = ${this.fieldIntCounterForMessages}`,
+                argStringMessage,
+                "\n",
+            ], "\n", )
+        )
+        this.fieldIntCounterForMessages++
+    }
+    //
+    // Setup
+    //
+    constructor() { this.fieldIntCounterForMessages = 0 }
 }
 
 

@@ -1,6 +1,11 @@
+//
+// Libraries - downloaded
+//
 import fs from "fs";
 import path from "path";
-
+//
+// Class
+//
 class HelperPathsProject {
     //
     // Public - get
@@ -9,22 +14,20 @@ class HelperPathsProject {
      * @param {string} argStringPath
      * @returns string
      * */
-    getStringPathAncestor = ( argStringPath ) => { return path.dirname( argStringPath ) }
+    getStringPathAncestor = ( argStringPath ) => path.dirname( argStringPath )
 
     /**
      * @param {string} argStringPath
      * @returns {Error | undefined}
      * */
     getErrorIfPathIsOutsideProject = ( argStringPath ) => {
-
         if ( !argStringPath.startsWith( this.fieldStringPathDirProject ) ) {
-            const arrayError = [
+            return Error( [
                 "argStringPath is outside the project.",
                 `argStringPath = ${argStringPath}`,
                 `this.fieldStringPathDirProject = ${this.fieldStringPathDirProject}`,
                 `argStringPath.startsWith( this.fieldStringPathDirProject ) = ${argStringPath.startsWith( this.fieldStringPathDirProject )}`,
-            ]
-            return Error( arrayError.reduce( ( itemStringPrev, itemString ) => itemStringPrev + "\n" + itemString ) )
+            ].reduce( ( itemStringPrev, itemString ) => `${itemStringPrev}\n${itemString}` ) )
         }
         return undefined
     }
@@ -33,24 +36,26 @@ class HelperPathsProject {
      * @param {string} argStringPathRel
      * @returns string
      * */
-    getStringPathAbsolute = ( argStringPathRel ) => { return path.join( this.fieldStringPathDirProject, argStringPathRel, ) }
+    getStringPathAbsolute = ( argStringPathRel ) => path.join( this.fieldStringPathDirProject, argStringPathRel, )
 
     /**
      * @param {string} argStringPathRel
      * @returns string
      * */
-    getStringPathDataInput = ( argStringPathRel = undefined ) => { return argStringPathRel === undefined ? this.fieldStringPathDirDataOutput : path.join( this.fieldStringPathDirDataOutput, argStringPathRel, ) }
+    getStringPathDataInput = ( argStringPathRel = undefined ) => argStringPathRel === undefined ? this.fieldStringPathDirDataOutput : path.join( this.fieldStringPathDirDataOutput, argStringPathRel, )
 
     /**
      * @param {string} argStringPathRel
      * @returns string
      * */
-    getStringPathDataOutput = ( argStringPathRel = undefined ) => { return argStringPathRel === undefined ? this.fieldStringPathDirDataOutput : path.join( this.fieldStringPathDirDataOutput, argStringPathRel, ) }
-
+    getStringPathDataOutput = ( argStringPathRel = undefined ) => argStringPathRel === undefined ? this.fieldStringPathDirDataOutput : path.join( this.fieldStringPathDirDataOutput, argStringPathRel, )
+    //
+    // Public - is
+    //
     /**
      * @param {string} argStringPath
      * */
-    logicDirIsProjectRoot = ( argStringPath ) => { return fs.readdirSync( argStringPath ).includes( "package.json" ) }
+    isDirProjectRoot = ( argStringPath ) => fs.readdirSync( argStringPath ).includes( "package.json" )
     //
     // Setup
     //
@@ -75,7 +80,7 @@ class HelperPathsProject {
             //
             // Return the first dir that contains 'package.json'
             //
-            if ( this.logicDirIsProjectRoot( stringToReturn ) ) { return stringToReturn }
+            if ( this.isDirProjectRoot( stringToReturn ) ) { return stringToReturn }
             //
             // If we get to the root dir, then obviously this is a major error; return undefined
             //
@@ -84,6 +89,9 @@ class HelperPathsProject {
         }
     }
 }
+//
+// Public
+//
 let helperPathsProject = new HelperPathsProject()
 export default helperPathsProject
 

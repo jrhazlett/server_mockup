@@ -1,20 +1,24 @@
 import * as path from "path";
-
+//
+// Public
+//
 export default class helperPaths {
-
+    //
+    // Public - get
+    //
     /**
-     * @param {[]} argArrayOfStrings
+     * @param {string[]} argArrayOfStrings
      * @returns string
      * */
-    static getPathByCombiningStrings = ( argArrayOfStrings ) => {
-        return path.join( ...argArrayOfStrings )
-    }
-
+    static getPathByCombiningStrings = ( argArrayOfStrings ) => path.join( ...argArrayOfStrings )
+    //
+    // Public - is
+    //
     /**
      * @param {string} argStringPath
-     * @returns boolean
+     * @returns {boolean}
      * */
-    static logicPathIsAbsolute = ( argStringPath ) => { return path.isAbsolute( argStringPath ) }
+    static isPathAbsolute = ( argStringPath ) => path.isAbsolute( argStringPath )
 }
 
 
