@@ -13,61 +13,6 @@ export default class helperFiles {
      * @param {string} argStringPathFile
      * @returns {string}
      * */
-    static getStringFromFile = ( argStringPathFile ) => {
-
-        return fs.readFileSync(
-            argStringPathFile,
-            "utf-8"
-        )
-    }
+    static getStringFromFile = (argStringPathFile) =>
+        fs.readFileSync(argStringPathFile, "utf-8");
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

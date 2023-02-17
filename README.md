@@ -16,23 +16,23 @@ sh run_container.sh
 
 ## Supports
 
-- Axios REST client
-- Express server
-- Basic working form (src/srcWeb/testForm.html)
-- Run-time code changes via nodemon
-- Docker
+-   Axios REST client
+-   Express server
+-   Basic working form (src/srcWeb/testForm.html)
+-   Run-time code changes via nodemon
+-   Docker
 
 ## How to send requests to it:
 
 ### src/helperServerExpressAddCommands.js
 
-- This has the express server sub paths and response definitions
+-   This has the express server sub paths and response definitions
 
 ### src/helpersServers/helperServerExpress.js
 
-- The server defaults to 8080
-- Server shouldn't have cors errors
-- It auto-parses json requests
+-   The server defaults to 8080
+-   Server shouldn't have cors errors
+-   It auto-parses json requests
 
 ## Speed and anti-frustration features
 
@@ -54,67 +54,8 @@ All Dockerfile 'COPY' commands are limited to just individual files.
 
 Obviously, this will raise the question: "Why not use docker-compose?"
 
-Docker-compose doesn't reliably refresh copied source files between runs and often needs 
+Docker-compose doesn't reliably refresh copied source files between runs and often needs
 supplementary clean-up scripts regardless.
 
 With that said, the src directory is mounted, so the only files truly susceptible to this
 issue in this context is the project root-dir level files.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

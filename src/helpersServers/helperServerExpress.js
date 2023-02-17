@@ -1,7 +1,7 @@
 //
 // Libraries - downloaded
 //
-import bodyParser from "body-parser"
+import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
 import path from "path";
@@ -19,19 +19,28 @@ export default class HelperServerExpress {
      * @param {string} argStringPathFileWebPageAbsolute
      * @returns {Error | undefined}
      * */
-    addGetPairPathUrlSubAndPathFileWebPage = ( argStringUrlSubPath, argStringPathFileWebPageAbsolute ) => {
+    addGetPairPathUrlSubAndPathFileWebPage = (
+        argStringUrlSubPath,
+        argStringPathFileWebPageAbsolute
+    ) => {
         //
         // Return error if defined
         //
-        const err = this.getErrorIfPathIsNotAbsolute( argStringPathFileWebPageAbsolute )
-        if ( err ) { return err }
+        const err = this.getErrorIfPathIsNotAbsolute(
+            argStringPathFileWebPageAbsolute
+        );
+        if (err) {
+            return err;
+        }
 
-        this.fieldObjectServer.get( argStringUrlSubPath, ( req, res ) => res.sendFile( argStringPathFileWebPageAbsolute ), )
+        this.fieldObjectServer.get(argStringUrlSubPath, (req, res) =>
+            res.sendFile(argStringPathFileWebPageAbsolute)
+        );
         //
         // Return undefined if no error
         //
-        return undefined
-    }
+        return undefined;
+    };
 
     /**
      * Reminder: The callback must take ( req, res ) as arguments.
@@ -39,7 +48,8 @@ export default class HelperServerExpress {
      * @param {string} argStringUrlSubPath
      * @param {Function} argCallback
      * */
-    addGetPairPathUrlSubAndCallback = ( argStringUrlSubPath, argCallback ) => this.fieldObjectServer.get( argStringUrlSubPath, argCallback, )
+    addGetPairPathUrlSubAndCallback = (argStringUrlSubPath, argCallback) =>
+        this.fieldObjectServer.get(argStringUrlSubPath, argCallback);
     //
     // Public - get
     //
@@ -47,14 +57,21 @@ export default class HelperServerExpress {
      * @param {string} argStringPath
      * @returns {Error | undefined}
      * */
-    getErrorIfPathIsNotAbsolute = ( argStringPath ) => 
-        path.isAbsolute( argStringPath ) 
-            ? undefined 
-            : Error( [
-                "Path is not absolute.",
-                `argStringPath = ${argStringPath}`,
-                `path.isAbsolute( argStringPath ) = ${path.isAbsolute( argStringPath )}`,
-            ].reduce( ( itemStringPrev, itemString ) => `${itemStringPrev}\n${itemString}` ) )
+    getErrorIfPathIsNotAbsolute = (argStringPath) =>
+        path.isAbsolute(argStringPath)
+            ? undefined
+            : Error(
+                  [
+                      "Path is not absolute.",
+                      `argStringPath = ${argStringPath}`,
+                      `path.isAbsolute( argStringPath ) = ${path.isAbsolute(
+                          argStringPath
+                      )}`,
+                  ].reduce(
+                      (itemStringPrev, itemString) =>
+                          `${itemStringPrev}\n${itemString}`
+                  )
+              );
     //
     // Public - run
     //
@@ -62,87 +79,28 @@ export default class HelperServerExpress {
      * @returns {Object}
      * */
     runServer = () => {
-        this.fieldObjectServer.listen( this.fieldIntPort, () => console.log( `Server listening on port: ${this.fieldIntPort}` ), )
-        return this
-    }
+        this.fieldObjectServer.listen(this.fieldIntPort, () =>
+            console.log(`Server listening on port: ${this.fieldIntPort}`)
+        );
+        return this;
+    };
     //
     // Constructor
     //
     /**
      * @param {number} argIntPort
      * */
-    constructor( argIntPort = 8001 ) {
-
-        this.fieldIntPort = argIntPort
-        this.fieldObjectServer = express()
+    constructor(argIntPort = 8001) {
+        this.fieldIntPort = argIntPort;
+        this.fieldObjectServer = express();
         //
         // Enable json parsing
         //
-        this.fieldObjectServer.use( bodyParser.json() )
-        this.fieldObjectServer.use( bodyParser.urlencoded( { extended: true } ) )
+        this.fieldObjectServer.use(bodyParser.json());
+        this.fieldObjectServer.use(bodyParser.urlencoded({ extended: true }));
         //
         // Prevent cors errors
         //
-        this.fieldObjectServer.use( cors() )
+        this.fieldObjectServer.use(cors());
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -10,7 +10,8 @@ export default class helperPaths {
      * @param {string[]} argArrayOfStrings
      * @returns string
      * */
-    static getPathByCombiningStrings = ( argArrayOfStrings ) => path.join( ...argArrayOfStrings )
+    static getPathByCombiningStrings = (argArrayOfStrings) =>
+        path.join(...argArrayOfStrings);
     //
     // Public - is
     //
@@ -18,56 +19,5 @@ export default class helperPaths {
      * @param {string} argStringPath
      * @returns {boolean}
      * */
-    static isPathAbsolute = ( argStringPath ) => path.isAbsolute( argStringPath )
+    static isPathAbsolute = (argStringPath) => path.isAbsolute(argStringPath);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -8,74 +8,20 @@ import HelperServerExpressAddCommands from "./helperServerExpressAddCommands.js"
 // Main
 //
 const main = async () => {
-    helperApp.printAppStart()
+    helperApp.printAppStart();
 
+    const helperServerExpressAddCommands = new HelperServerExpressAddCommands();
 
-    const helperServerExpressAddCommands = new HelperServerExpressAddCommands()
+    const helperServerExpress = new HelperServerExpress();
+    helperServerExpressAddCommands.addCommandsToServerExpress(
+        helperServerExpress
+    );
 
-    const helperServerExpress = new HelperServerExpress()
-    helperServerExpressAddCommands.addCommandsToServerExpress( helperServerExpress )
-
-    helperServerExpress.runServer()
-}
-main().then( () => {
-    helperApp.exitApp( {
+    helperServerExpress.runServer();
+};
+main().then(() => {
+    helperApp.exitApp({
         argBoolPrintScriptComplete: false,
         argBoolRunExit: false,
-    } )
-} )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    });
+});
